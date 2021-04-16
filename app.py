@@ -1,29 +1,33 @@
-import json
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
+
 app = Flask(__name__)
 
+data = [
+        {
+            "id": 1,
+            "library": "Pandas",
+            "language": "Python"
+        },
+        {
+            "id": 2,
+            "library": "requests",
+            "language": "Python"
+        },
+        {
+            "id": 3,
+            "library": "NumPy",
+            "language": "Python"
+        }
+    ]
+
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
-@app.route('/<pairname>')
-def pair_signals(pairname):
-	return 'This is {} buying signals'.format(pairname)
+def hello():
+    return "Hello Flask-Heroku"
 
 
-@app.route('/webhook', methods=['POST'])
-def webhook():
-	#print(request.data)
-	data = json.loads(request.data)
+@app.route('/api', methods=['GET'])
+def get_api():
+    return jsonify(data)
 
-	print(data['phoneNumbers'])
-
-	return {
-		"code" : "success",
-	#	"message" : data
-
-	}
-
-if __name__ == '__main__':
-	app.run(debug=True)
-	
+if __name__ == "__main__":
+    app.run(debug=False)
